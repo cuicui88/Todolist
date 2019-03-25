@@ -2,8 +2,11 @@
 import React,{Component,Fragment} from 'react';
 //引入TodoItem这个组件
 import TodoItem from './TodoItem';
+import axios from 'axios';//由于此处实现ajax失败，因此可以不要这个
+
 //引入一个css文件
 import "./style.css";
+
 //创建组件
 class Todolist extends Component{
     constructor(props){
@@ -37,6 +40,18 @@ class Todolist extends Component{
             </Fragment>
         )
     }
+    
+    
+    componentDidMount(){
+        axios.get('/api/todolist')
+            .then((res)=>{
+                this.setState(()=>({
+                        list: [...res.data]
+                    }))
+            })
+            .catch(()=>{alert('error')})
+    }
+
     getTodoItem(){
         return(
             // 对list数组中的每个元素执行下面的操作    
